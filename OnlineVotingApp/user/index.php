@@ -1,8 +1,14 @@
 <?php
     session_start();
     include '../config.php';
+    $nim = $_SESSION['nim'];
     $queryfoto = mysqli_query($con,"SELECT * FROM foto WHERE status = '1'");
-    
+    $queryuser = mysqli_query($con,"SELECT * FROM users WHERE nim = '$nim'");
+    $getstatus = mysqli_fetch_assoc($queryuser);
+    $getstatus['status'];
+    if($_SESSION['role'] != 'user' || empty($_SESSION['role']) || $getstatus == '1'){
+        header('location: ../login.php');
+    }
 
 ?>
 

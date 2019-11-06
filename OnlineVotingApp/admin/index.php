@@ -2,23 +2,12 @@
     session_start();
     include "../config.php";
     $nimsess = $_SESSION['nim'];
+    if($_SESSION['role'] != 'admin' || empty($_SESSION['role'])){
+      header('location: ../login.php');
+  }
     $selectnama = mysqli_query($con,"SELECT nama FROM mahasiswa WHERE nim = '$nimsess'");
     $namaget = mysqli_fetch_array($selectnama);
-    // if(isset($_POST['submit'])){
-    //     $nim = $_POST['nim'];
-    //     $nama = $_POST['nama'];
-    //     $prodi = $_POST['prodi'];
-    //     $query = mysqli_query($con,"SELECT * FROM mahasiswa WHERE nim = '$nim' ");
-    //     $check = mysqli_num_rows($query);
-    //     if($check > 0){
-    //         echo "NIM tersebut tidak dapat digunakan.";
-    //     }
-    //     else{
-    //         $tambah = mysqli_query($con,"INSERT INTO mahasiswa VALUES('$nama','$nim','$prodi')");
-    //         header('location:mahasiswa.php');
-    //     }
 
-    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +26,15 @@
 
   <!-- Custom styles for this template -->
   <link href="../css/simple-sidebar.css" rel="stylesheet">
-
+  <style type='text/css'>
+    #chart-container {
+    width: 100%;
+    height: auto;
+}
+  </style>
+  
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/Chart.min.js"></script>
 </head>
 
 <body>
@@ -46,12 +43,11 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="sidebar-heading">Online Voting App</div>
       <div class="list-group list-group-flush">
       <a href="index.php" class="list-group-item list-group-item-action bg-light">Beranda</a>
         <a href="kandidat.php" class="list-group-item list-group-item-action bg-light">Voting</a>
         <a href="mahasiswa.php" class="list-group-item list-group-item-action bg-light" id="active">Mahasiswa</a>
-        <a href="prodi.php" class="list-group-item list-group-item-action bg-light">Prodi</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -81,8 +77,65 @@
       </nav>
 
       <div class="container-fluid" style="text-align: center;">
-        <h1 class="mt-4">Belum ada voting yang dibuat. Buat sekarang?</h1>
-        <p>Klik <a href="kandidat.php">disini!</p>
+
+
+    <script>
+        $(document).ready(function () {
+            showGraph();
+        });
+
+
+        function showGraph()
+        {
+            {
+                $.post("data.php",
+                function (data)
+                {
+                    console.log(data);
+                     var name = [];
+                    var marks = [];
+
+                    for (var i in data) {
+                        name.push(data[i].namacalon);
+                        marks.push(data[i].jumlahsuara);
+                    }
+
+                    var chartdata = {
+                        labels: name,
+                        datasets: [
+                            {
+                                label: 'Jumlah Suara',
+                                backgroundColor: '#49e2ff',
+                                borderColor: '#46d5f1',
+                                hoverBackgroundColor: '#CCCCCC',
+                                hoverBorderColor: '#666666',
+                                data: marks
+                            }
+                        ]
+                    };
+
+                    var graphTarget = $("#graphCanvas");
+
+                    var barGraph = new Chart(graphTarget, {
+                        type: 'bar',
+                        data: chartdata
+                    });
+                });
+            }
+        }
+        </script>
+        <?php
+          $querycek = mysqli_query($con,"SELECT * FROM foto WHERE status = '1' ");
+          $check = mysqli_num_rows($querycek);
+          if($check > 0){
+            echo "<div id='chart-container'>
+            <canvas id='graphCanvas'></canvas>
+            </div>";
+          }
+          else{
+            echo "<h1 class='mt-4'>Belum ada voting yang dibuat. Buat sekarang?</h1><p>Klik <a href='kandidat.php'>disini!</p>";
+          }
+        ?>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -91,8 +144,11 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="../vendor/jquery/jquery.min.js"></script>
+  <!-- <script src="../vendor/jquery/jquery.min.js"></script> -->
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/Chart.min.js"></script>
 
   <!-- Menu Toggle Script -->
   <script>

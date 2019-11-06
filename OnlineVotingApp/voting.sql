@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 05 Nov 2019 pada 10.01
--- Versi Server: 10.1.21-MariaDB
+-- Generation Time: Nov 06, 2019 at 05:03 PM
+-- Server version: 10.1.21-MariaDB
 -- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,20 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `foto`
+-- Table structure for table `foto`
 --
 
 CREATE TABLE `foto` (
   `nim` int(10) NOT NULL,
-  `nama` varchar(32) NOT NULL,
+  `namacalon` varchar(32) NOT NULL,
+  `nama` text NOT NULL,
   `visi` varchar(60) NOT NULL,
-  `misi` text NOT NULL
+  `misi` text NOT NULL,
+  `status` enum('0','1') NOT NULL,
+  `jumlahsuara` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mahasiswa`
+-- Table structure for table `mahasiswa`
 --
 
 CREATE TABLE `mahasiswa` (
@@ -46,7 +49,7 @@ CREATE TABLE `mahasiswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `mahasiswa`
+-- Dumping data for table `mahasiswa`
 --
 
 INSERT INTO `mahasiswa` (`nama`, `nim`, `prodi`) VALUES
@@ -429,7 +432,7 @@ INSERT INTO `mahasiswa` (`nama`, `nim`, `prodi`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `prodi`
+-- Table structure for table `prodi`
 --
 
 CREATE TABLE `prodi` (
@@ -440,22 +443,28 @@ CREATE TABLE `prodi` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
   `nim` int(10) NOT NULL,
   `password` varchar(70) NOT NULL,
-  `role` enum('admin','user') NOT NULL
+  `role` enum('admin','user') NOT NULL,
+  `status` enum('0','1') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`nim`, `password`, `role`) VALUES
-(1234567890, '851fdee206c1eec10cee5ec8e8962af2', 'admin'),
-(1910511085, 'b24f9978ebe96b1b507838ff8edf50e1', 'user');
+INSERT INTO `users` (`nim`, `password`, `role`, `status`) VALUES
+(1234567890, '851fdee206c1eec10cee5ec8e8962af2', 'admin', '0'),
+(1910511080, 'ce236b23c4fbde91a5bcb772d00e4a58', 'user', '0'),
+(1910511081, 'b6e99b487ad707c1e85d36c01f1ba983', 'user', '0'),
+(1910511084, '7b717ec43095800b07cadeccf156c8b2', 'user', '0'),
+(1910511085, 'b24f9978ebe96b1b507838ff8edf50e1', 'user', '0'),
+(1910511086, '1e49db1e9c07d30d9e583e709c020d10', 'user', '0'),
+(1910511090, '2dba6080f5c8982b7a9d15d298c5d166', 'user', '0');
 
 --
 -- Indexes for dumped tables

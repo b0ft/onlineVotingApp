@@ -2,6 +2,9 @@
     session_start();
     include "../config.php";
     $nimsess = $_SESSION['nim'];
+    if($_SESSION['role'] != 'admin' || empty($_SESSION['role'])){
+      header('location: ../login.php');
+  }
     $selectnama = mysqli_query($con,"SELECT nama FROM mahasiswa WHERE nim = '$nimsess'");
     $namaget = mysqli_fetch_array($selectnama);
     $errwarn = "";
@@ -88,7 +91,6 @@
       <a href="index.php" class="list-group-item list-group-item-action bg-light">Beranda</a>
         <a href="kandidat.php" class="list-group-item list-group-item-action bg-light">Voting</a>
         <a href="mahasiswa.php" class="list-group-item list-group-item-action bg-light" id="active">Mahasiswa</a>
-        <a href="prodi.php" class="list-group-item list-group-item-action bg-light">Prodi</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -170,8 +172,7 @@
                         echo    "<div class='col-md-2' style='padding: 16px'>
                                     <center><img src='".$row['nama']."'  width = '205px' height = '286px'><br>
                                     <label id='labelnama'>".$row['namacalon']."</label><br>
-                                    <a href='editkandidat.php?nim=".$row['nim']."'><button type=button class='btn btn-success'>Edit</button></a>
-                                    <button class='btn btn-warning' type='submit'>View</button>                                    
+                                    <a href='editkandidat.php?nim=".$row['nim']."'><button type=button class='btn btn-success'>Edit</button></a>                                    
                                     <a href='deletekandidat.php?nim=".$row['nim']."'><button type=button class='btn btn-danger'>Delete</button></a></center>
                                 </div>";
                                 

@@ -1,6 +1,9 @@
 <?php
     session_start();
     include "../config.php";
+    if($_SESSION['role'] != 'admin' || empty($_SESSION['role'])){
+      header('location: ../login.php');
+  }
     $nimsess = $_SESSION['nim'];
     $selectnama = mysqli_query($con,"SELECT nama FROM mahasiswa WHERE nim = '$nimsess'");
     $namaget = mysqli_fetch_array($selectnama);

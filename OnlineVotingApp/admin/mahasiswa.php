@@ -1,6 +1,9 @@
 <?php
     session_start();
     include "../config.php";
+    if($_SESSION['role'] != 'admin' || empty($_SESSION['role'])){
+      header('location: ../login.php');
+  }
     $nimsess = $_SESSION['nim'];
     $selectnama = mysqli_query($con,"SELECT nama FROM mahasiswa WHERE nim = '$nimsess'");
     $namaget = mysqli_fetch_array($selectnama);
@@ -49,12 +52,11 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">Start Bootstrap </div>
+      <div class="sidebar-heading">Online Voting App</div>
       <div class="list-group list-group-flush">
         <a href="index.php" class="list-group-item list-group-item-action bg-light">Beranda</a>
         <a href="kandidat.php" class="list-group-item list-group-item-action bg-light">Voting</a>
         <a href="mahasiswa.php" class="list-group-item list-group-item-action bg-light">Mahasiswa</a>
-        <a href="prodi.php" class="list-group-item list-group-item-action bg-light">Prodi</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->
