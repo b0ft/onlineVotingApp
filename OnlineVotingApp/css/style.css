@@ -1,0 +1,15 @@
+#isilogin{
+	text-align: center;
+	margin-top: 40%;
+	border: 1px solid black;
+	padding: 16px;
+}
+#side{
+	background-color: blue;
+	height: 100%;
+	padding: 16px;
+}		
+#active{
+	background-color: darkgrey;
+	color: white;
+}
